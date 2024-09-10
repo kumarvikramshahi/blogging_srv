@@ -1,8 +1,22 @@
+import asyncio
 from fastapi import FastAPI, HTTPException
+from contextlib import asynccontextmanager
 from fastapi.responses import JSONResponse
 from api.routers import GenericRouters
+from kafka_streamer import KafkaProducer, KafkaConsumer
 
-app = FastAPI()
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    await KafkaProducer.Init()
+    await KafkaConsumer.Init()
+    asyncio.create_task(KafkaConsumer.ConsumeMessage())
+    yield  # lines above this line execute @ starup and belows @ shutdown
+    await KafkaProducer.Stop()
+    await KafkaConsumer.Stop()
+
+
+app = FastAPI(lifespan=lifespan)
 
 
 # exception handlers

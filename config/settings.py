@@ -10,5 +10,5 @@ class Settings:
 
     LOG_LEVEL = os.getenv("LOG_LEVEL")
 
-
-ConfigSettings = Settings()
+    KAFKA_BROKER = os.getenv("KAFKA_BROKER")
+    BLOGGING_TOPIC_NAME = os.getenv("BLOGGING_TOPIC_NAME")
