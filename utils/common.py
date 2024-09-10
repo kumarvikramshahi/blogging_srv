@@ -13,5 +13,3 @@ class Utils:
         return int(currentTimestampInSec * 1000)
 
 
-def ObjectAssign(obj, dictionary):
-    return {**obj, **dictionary}

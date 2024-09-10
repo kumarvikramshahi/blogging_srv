@@ -18,10 +18,9 @@ class Producer:
     async def Stop(self):
         await self._producer.stop()
 
-    async def ProduceMessage(self, data: dict) -> bool:
+    async def ProduceMessage(self, data: dict):
         message = json.dumps(jsonable_encoder(data)).encode("utf-8")
         response = await self._producer.send_and_wait(
             ConfigSettings.BLOGGING_TOPIC_NAME, value=message
         )
-        print(response)
         return response

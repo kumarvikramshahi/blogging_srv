@@ -3,7 +3,7 @@ from typing import Any
 
 
 class SearchBlogRequest(BaseModel):
-    Query: str = Field(alias="query")
+    Query: dict = Field(alias="query")
 
 
 class SearchBlogResponse(BaseModel):
