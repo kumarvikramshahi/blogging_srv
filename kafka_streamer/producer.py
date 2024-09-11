@@ -1,4 +1,6 @@
 import json
+import time
+import logging
 from fastapi.encoders import jsonable_encoder
 from aiokafka import AIOKafkaProducer
 from config import ConfigSettings
@@ -13,7 +15,14 @@ class Producer:
         )
 
     async def Init(self):
-        await self._producer.start()
+        for index in range(10):
+            try:
+                logging.info(f"Attempt ({index} of 10) to connect Kafka")
+                await self._producer.start()
+                break
+            except Exception as error:
+                logging.info("Failed to connect to Kafka, retrying in 2 seconds...")
+                time.sleep(2)  # Wait
 
     async def Stop(self):
         await self._producer.stop()

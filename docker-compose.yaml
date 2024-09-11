@@ -1,0 +1,67 @@
+version: '0.1'
+
+services:
+
+  zookeeper:
+    image: zookeeper:latest
+    ports:
+      - "2181:2181"
+    networks:
+      - blogging_network
+
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    ports:
+      - "9092:9092"
+    expose:
+      - "9093"
+    environment:
+      KAFKA_ADVERTISED_LISTENERS: INSIDE://kafka:9093,OUTSIDE://localhost:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
+      KAFKA_LISTENERS: INSIDE://0.0.0.0:9093,OUTSIDE://0.0.0.0:9092
+      KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - blogging_network
+    healthcheck:
+      test: ["CMD", "/usr/bin/kafka-topics", "--list", "--bootstrap-server", "localhost:9092"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.15.0
+    environment:
+      - xpack.security.enabled=false
+      - discovery.type=single-node
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    networks:
+      - blogging_network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9200/_cluster/health"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  blogging_srv:
+    build: .
+    ports:
+      - "3000:80"
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+    env_file:
+      - env/dev.env
+    networks:
+      - blogging_network
+
+networks:
+  blogging_network:
+    driver: bridge

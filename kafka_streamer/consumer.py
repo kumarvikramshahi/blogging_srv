@@ -28,7 +28,7 @@ class Consumer:
             try:
                 async with httpx.AsyncClient() as client:
                     resp = await client.post(
-                        "http://localhost:3000/blogging/v1/save_blog", data=data
+                        f"{ConfigSettings.SELF_HOST}/blogging/v1/save_blog", data=data
                     )
                     if resp.status_code != 200:
                         logging.error(

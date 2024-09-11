@@ -12,7 +12,7 @@ from core import MongoConnection, ElasticConnection, logging_core
 async def lifespan(app: FastAPI):
     # MongoConnection.Create()
     logging_core.Initialize()
-    ElasticConnection.Init()
+    await ElasticConnection.Init()
     await KafkaProducer.Init()
     await KafkaConsumer.Init()
     asyncio.create_task(KafkaConsumer.ConsumeMessage())

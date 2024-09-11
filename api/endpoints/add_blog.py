@@ -35,10 +35,10 @@ async def SaveBlog(requestItem: SaveBlogRequest):
     try:
         _ = await Blogs().Create(insertData=insertData)
     except Exception as error:
-        logging.error(f"str{error}")
+        logging.error(f"error in saving - {str(error)}")
         customError = ErrorResponse(
             code=ErrorCode.INTERNAL_SERVER_ERROR,
-            message="Error indexing docs in elastic",
+            message=f"{str(error)}",
         )
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=customError

@@ -21,3 +21,5 @@ class Settings:
     ELASTIC_PASSWORD = os.getenv("ELASTIC_PASSWORD")
     ELASTIC_HOST = os.getenv("ELASTIC_HOST")
     ELASTIC_USER = os.getenv("ELASTIC_USER")
+
+    SELF_HOST=os.getenv("SELF_HOST")
