@@ -91,10 +91,10 @@ Use below for domain:
 * `localhost:3000` = When running as docker-compose or local enviroment way.
 * `localhost:80`   = When running in Minikube cluster
 
-#### ``GET`` -  `blogging/v1/health` 
+#### ``GET`` -  `/blogging/v1/health` 
 Health API
 ```
-curl --location 'localhost:80/blogging/v1/health'
+curl --location 'localhost:3000/blogging/v1/health'
 ```
 
 #### ``POST`` - `/blogging/v1/add_blog`  
