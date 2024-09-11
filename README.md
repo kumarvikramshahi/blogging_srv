@@ -1,6 +1,17 @@
 # Blogging service
 A Service that allows user to do blogging.
 
+### Repo Structure
+* `api` = constains all routers/endpoints or say service layer (Business logic).
+* `config` = contains configs like env vars and contants.
+* `core` = contains connection like DB connection etc, core of service like logging core.
+* `dao` = Data object layer, containts DB related logics.
+* `env` = files for env variables for different enviroments.
+* `kafka_streamer` = contains logics of producer and consumer, that can be seperated easily from service on traffic surge core application.
+* `schemas` = domain layer, contains all type definitions used globally.
+* `kubernetes` = contains K8s yaml files.
+* `util` = contains common methods used globally (can't say, you can put whatever things that can't be put anywhere else).
+
 ### Quick Start
 ```
 git clone https://github.com/kumarvikramshahi/blogging_srv.git
