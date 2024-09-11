@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blogging-srv
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: blogging-srv
+  template:
+    metadata:
+      labels:
+        app: blogging-srv
+    spec:
+      containers:
+        - name: blogging-srv
+          image: kumarvikramshahi/blogging_srv:latest 
+          ports:
+            - containerPort: 80
+          envFrom:
+            - configMapRef:
+                name: dev-env  

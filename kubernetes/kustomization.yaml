@@ -1,0 +1,11 @@
+resources:
+  - network-policy/kafka-network-policy.yaml
+  - statefulset/zookeeper_statefulset.yaml
+  - statefulset/elasticsearch_statefulset.yaml
+  - statefulset/kafka_statefulset.yaml
+  - services/elasticsearch_service.yaml
+  - services/kafka_service.yaml
+  - services/zookeeper_service.yaml
+  - deployment/blogging_srv_deployment.yaml
+  - services/blogging_srv_service.yaml
+  - ingress/blogging_srv_ingress.yaml
