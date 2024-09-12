@@ -143,7 +143,7 @@ Example request:
 {
     "query": {
         "wildcard": {
-            "blog_title": "How to*"
+            "blog_text": "main*"
         }
     }
 }
