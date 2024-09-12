@@ -141,20 +141,11 @@ curl --location --request GET 'localhost:3000/blogging/v1/search_blog' \
 Example request:
 ```
 {
-    "data": [
-        {
-            "id": "z88-5JEBtWgiJV7Nm91h",
-            "score": 1.0,
-            "data": {
-                "blog_title": "How to build website",
-                "blog_text": "main blog",
-                "author": "user-id",
-                "length": 9,
-                "created_at": 1726111193598,
-                "updated_at": 1726111193598
-            }
-        },
-    ]
+    "query": {
+        "wildcard": {
+            "blog_text": "main*"
+        }
+    }
 }
 ```
 Example response:
