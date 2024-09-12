@@ -6,6 +6,7 @@ from fastapi.responses import JSONResponse
 from api.routers import GenericRouters
 from kafka_streamer import KafkaProducer, KafkaConsumer
 from core import MongoConnection, ElasticConnection, logging_core
+from dao.blogs import Blogs
 
 
 @asynccontextmanager
@@ -15,6 +16,7 @@ async def lifespan(app: FastAPI):
     await ElasticConnection.Init()
     await KafkaProducer.Init()
     await KafkaConsumer.Init()
+    await Blogs().CreateIndex()
     asyncio.create_task(KafkaConsumer.ConsumeMessage())
     yield  # lines above this line execute @ starup and belows @ shutdown
     await KafkaProducer.Stop()

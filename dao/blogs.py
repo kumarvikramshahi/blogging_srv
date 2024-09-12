@@ -20,6 +20,27 @@ class Blogs:
     def __init__(self) -> None:
         self._blogsIndex = "blogs"
 
+    async def CreateIndex(self):
+        mapping = {
+            "mappings": {
+                "properties": {
+                    "blog_title": {"type": "keyword"},
+                    "blog_text": {"type": "keyword"},
+                    "user_id": {"type": "text"},
+                }
+            }
+        }
+        # Create the index if it doesn't exist
+        doesExist = await ElasticConnection.ElasticClient.indices.exists(
+            index=self._blogsIndex
+        )
+        print("does exist: ",doesExist)
+        if not doesExist:
+            print("index creating")
+            await ElasticConnection.ElasticClient.indices.create(
+                index=self._blogsIndex, body=mapping
+            )
+
     async def Create(self, insertData: BlogsDTO):
         insertData.CreatedAt = Utils.currentUtcEpochTimestamp()
         insertData.UpdatedAt = Utils.currentUtcEpochTimestamp()
@@ -51,4 +72,3 @@ class Blogs:
                 )
             )
         return response
-    
